@@ -23,6 +23,8 @@
     "name" : "segments"
   }, {
     "name" : "users"
+  }, {
+    "name" : "datarepair"
   } ],
   "schemes" : [ "https" ],
   "paths" : {
@@ -1427,6 +1429,24 @@
           }
         }
       }
+    },
+    "/datarepair/v1/{rsid}/auth" : {
+      "get": {
+        "tags": [
+          "datarepair"
+        ],
+        "summary": "Does an authorization check",
+        "description": "",
+        "operationId": "authorizationCheck",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
     }
   },
   "definitions" : {
@@ -1865,7 +1885,7 @@
                     },
                     "func" : {
                       "type" : "string"
-                    },
+                    }
                   }
                 },
                 "str" : {
@@ -1873,13 +1893,13 @@
                 },
                 "func" : {
                   "type" : "string"
-                },
+                }
               }
             }
           }
         },
         "func": {
-          "type" : "string",
+          "type" : "string"
         },
         "version": {
           "type" : "array",
