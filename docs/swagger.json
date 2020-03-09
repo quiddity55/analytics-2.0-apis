@@ -741,6 +741,208 @@
         }
       }
     },
+    "/datarepair/v1/{rsid}/auth" : {
+      "get" : {
+        "tags" : [
+          "datarepair"
+        ],
+        "summary" : "Does an authorization check",
+        "description" : "",
+        "operationId" : "authorizationCheck",
+        "produces": [
+          "application/json"
+        ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "description" : "The user token",
+          "type" : "string",
+          "default" : "Bearer ",
+          "required" : true
+        }, {
+          "name" : "x-proxy-global-company-id",
+          "in" : "header",
+          "type" : "string",
+          "required" : true,
+          "description": "The analytics global company id"
+        } ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/datarepair/v1/{rsid}/job" : {
+      "post" : {
+        "tags" : [
+          "datarepair"
+        ],
+        "summary" : "Creates a data repair job",
+        "description" : "",
+        "operationId" : "createDataRepairJob",
+        "produces": [
+          "application/json"
+        ],
+        "parameters" : [ {
+          "default": "Bearer ",
+          "description": "The user token",
+          "in": "header",
+          "name": "Authorization",
+          "required": true,
+          "type": "string"
+        }, {
+          "description": "The analytics global company id",
+          "in": "header",
+          "name": "x-proxy-global-company-id",
+          "required": true,
+          "type": "string"
+        }, {
+          "description": "A validation token returned from the servercounts endpoint",
+          "in": "header",
+          "name": "x-validation-token",
+          "required": true,
+          "type": "string"
+        }, {
+          "description": "The report suite id",
+          "in": "path",
+          "name": "rsid",
+          "required": true,
+          "type": "string"
+        }, {
+          "description": "The start date (YYYY-MM-DD)",
+          "in": "query",
+          "name": "startDate",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "required": true,
+          "type": "string"
+        }, {
+          "description": "The end date (YYYY-MM-DD)",
+          "in": "query",
+          "name": "endDate",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "required": true,
+          "type": "string"
+        }, {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/DataRepairJob"
+          }
+        } ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "No Authorization"
+          }
+        }
+      }
+    },
+    "/datarepair/v1/{rsid}/job/{job_id}" : {
+      "get" : {
+        "tags" : [
+          "datarepair"
+        ],
+        "summary" : "Returns the current status of the given data repair job id",
+        "description" : "",
+        "operationId" : "getDataRepairJobStatus",
+        "produces": [
+          "application/json"
+        ],
+        "parameters" : [ {
+          "default": "Bearer ",
+          "description": "The user token",
+          "in": "header",
+          "name": "Authorization",
+          "required": true,
+          "type": "string"
+        }, {
+          "description": "The analytics global company id",
+          "in": "header",
+          "name": "x-proxy-global-company-id",
+          "required": true,
+          "type": "string"
+        }, {
+          "description": "The report suite id",
+          "in": "path",
+          "name": "rsid",
+          "required": true,
+          "type": "string"
+        }, {
+          "description": "The job id",
+          "in": "path",
+          "name": "job_id",
+          "required": true,
+          "type": "string"
+        } ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "No Authorization"
+          }
+        }
+      }
+    },
+    "/datarepair/v1/{rsid}/serverCallEstimate" : {
+      "get" : {
+        "tags" : [
+          "datarepair"
+        ],
+        "summary" : "Returns a row count estimate for the given time range.",
+        "description" : "",
+        "operationId" : "getServerCallEstimate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters" : [ {
+          "default": "Bearer ",
+          "description": "The user token",
+          "in": "header",
+          "name": "Authorization",
+          "required": true,
+          "type": "string"
+        }, {
+          "description": "The analytics global company id",
+          "in": "header",
+          "name": "x-proxy-global-company-id",
+          "required": true,
+          "type": "string"
+        }, {
+          "description": "The report suite id",
+          "in": "path",
+          "name": "rsid",
+          "required": true,
+          "type": "string"
+        }, {
+          "description": "The start date (YYYY-MM-DD)",
+          "in": "query",
+          "name": "startDate",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "required": true,
+          "type": "string"
+        }, {
+          "description": "The end date (YYYY-MM-DD)",
+          "in": "query",
+          "name": "endDate",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "required": true,
+          "type": "string"
+        } ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "No Authorization"
+          }
+        }
+      }
+    },
     "/dimensions" : {
       "get" : {
         "tags" : [ "dimensions" ],
@@ -1426,106 +1628,6 @@
             "schema" : {
               "$ref" : "#/definitions/AnalyticsUser"
             }
-          }
-        }
-      }
-    },
-    "/datarepair/v1/{rsid}/auth" : {
-      "get" : {
-        "tags" : [
-          "datarepair"
-        ],
-        "summary" : "Does an authorization check",
-        "description" : "",
-        "operationId" : "authorizationCheck",
-        "produces": [
-          "application/json"
-        ],
-        "parameters" : [ {
-          "name" : "Authorization",
-          "in" : "header",
-          "description" : "The user token",
-          "type" : "string",
-          "default" : "Bearer ",
-          "required" : true
-        }, {
-          "name" : "x-proxy-global-company-id",
-          "in" : "header",
-          "type" : "string",
-          "required" : true,
-          "description": "The analytics global company id"
-        } ],
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/datarepair/v1/{rsid}/job" : {
-      "post" : {
-        "tags" : [
-          "datarepair"
-        ],
-        "summary" : "Creates a data repair job",
-        "description" : "",
-        "operationId" : "createDataRepairJob",
-        "produces": [
-          "application/json"
-        ],
-        "parameters" : [ {
-          "default": "Bearer ",
-          "description": "The user token",
-          "in": "header",
-          "name": "Authorization",
-          "required": true,
-          "type": "string"
-        }, {
-          "description": "The analytics global company id",
-          "in": "header",
-          "name": "x-proxy-global-company-id",
-          "required": true,
-          "type": "string"
-        }, {
-          "description": "A validation token returned from the servercounts endpoint",
-          "in": "header",
-          "name": "x-validation-token",
-          "required": true,
-          "type": "string"
-        }, {
-          "description": "The report suite id",
-          "in": "path",
-          "name": "rsid",
-          "required": true,
-          "type": "string"
-        }, {
-          "description": "The start date (YYYY-MM-DD)",
-          "in": "query",
-          "name": "startDate",
-          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-          "required": true,
-          "type": "string"
-        }, {
-          "description": "The end date (YYYY-MM-DD)",
-          "in": "query",
-          "name": "endDate",
-          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-          "required": true,
-          "type": "string"
-        }, {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/DataRepairJob"
-          }
-        } ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "401": {
-            "description": "No Authorization"
           }
         }
       }
@@ -2334,6 +2436,124 @@
         }
       }
     },
+    "DataRepairJob": {
+      "properties": {
+        "filterInteraction": {
+          "description": "Whether or not all filters need to match",
+          "enum": [
+            "ANY",
+            "ALL"
+          ],
+          "type": "string"
+        },
+        "filters": {
+          "description": "The list of DataRepairJobFilter's",
+          "items": {
+            "$ref": "#/definitions/DataRepairJobFilter"
+          },
+          "type": "array"
+        },
+        "type": {
+          "description": "The DataRepairJob type",
+          "enum": [
+            "standard",
+            "activityMap"
+          ],
+          "type": "string"
+        },
+        "variables": {
+          "description": "The list of DataRepairJobVariable's",
+          "items": {
+            "$ref": "#/definitions/DataRepairJobVariable"
+          },
+          "type": "array"
+        },
+        "version": {
+          "default": 1,
+          "description": "The DataRepairJob version",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "DataRepairJobFilter": {
+      "properties": {
+        "id": {
+          "description": "The variable identifier",
+          "type": "string"
+        },
+        "operand": {
+          "description": "The list of values to compare against.  The filter matches if any of the operands match the variable.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "operation": {
+          "description": "The comparison operation to perform on the variable",
+          "enum": [
+            "isEmpty",
+            "isNotEmpty",
+            "equals",
+            "notEquals",
+            "contains",
+            "notContains",
+            "startsWith",
+            "notStartsWith",
+            "endsWith",
+            "notEndsWith"
+          ],
+          "type": "string"
+        },
+        "type": {
+          "default": "variable",
+          "description": "The DataRepairJobFilter type",
+          "enum": [
+            "variable",
+            "dw_request"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "DataRepairJobVariable": {
+      "properties": {
+        "action": {
+          "description": "The operation to apply to the variable",
+          "enum": [
+            "delete",
+            "set",
+            "removeQueryString",
+            "removeQueryStringParameter",
+            "hash"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "description": "The variable identifier",
+          "enum": [
+            "evar#",
+            "prop#",
+            "revar#",
+            "rprop#"
+          ],
+          "type": "string"
+        },
+        "keys": {
+          "description": "The keys to remove from kvdata (if appropriate)",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "value": {
+          "description": "The value to set (if appropriate)",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "DeleteResponse" : {
       "type" : "object",
       "properties" : {
@@ -3077,124 +3297,6 @@
           }
         }
       }
-    },
-    "DataRepairJob": {
-      "properties": {
-        "filterInteraction": {
-          "description": "Whether or not all filters need to match",
-          "enum": [
-            "ANY",
-            "ALL"
-          ],
-          "type": "string"
-        },
-        "filters": {
-          "description": "The list of DataRepairJobFilter's",
-          "items": {
-            "$ref": "#/definitions/DataRepairJobFilter"
-          },
-          "type": "array"
-        },
-        "type": {
-          "description": "The DataRepairJob type",
-          "enum": [
-            "standard",
-            "activityMap"
-          ],
-          "type": "string"
-        },
-        "variables": {
-          "description": "The list of DataRepairJobVariable's",
-          "items": {
-            "$ref": "#/definitions/DataRepairJobVariable"
-          },
-          "type": "array"
-        },
-        "version": {
-          "default": 1,
-          "description": "The DataRepairJob version",
-          "type": "integer"
-        }
-      },
-      "type": "object"
-    },
-    "DataRepairJobFilter": {
-      "properties": {
-        "id": {
-          "description": "The variable identifier",
-          "type": "string"
-        },
-        "operand": {
-          "description": "The list of values to compare against.  The filter matches if any of the operands match the variable.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "operation": {
-          "description": "The comparison operation to perform on the variable",
-          "enum": [
-            "isEmpty",
-            "isNotEmpty",
-            "equals",
-            "notEquals",
-            "contains",
-            "notContains",
-            "startsWith",
-            "notStartsWith",
-            "endsWith",
-            "notEndsWith"
-          ],
-          "type": "string"
-        },
-        "type": {
-          "default": "variable",
-          "description": "The DataRepairJobFilter type",
-          "enum": [
-            "variable",
-            "dw_request"
-          ],
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "DataRepairJobVariable": {
-      "properties": {
-        "action": {
-          "description": "The operation to apply to the variable",
-          "enum": [
-            "delete",
-            "set",
-            "removeQueryString",
-            "removeQueryStringParameter",
-            "hash"
-          ],
-          "type": "string"
-        },
-        "id": {
-          "description": "The variable identifier",
-          "enum": [
-            "evar#",
-            "prop#",
-            "revar#",
-            "rprop#"
-          ],
-          "type": "string"
-        },
-        "keys": {
-          "description": "The keys to remove from kvdata (if appropriate)",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "value": {
-          "description": "The value to set (if appropriate)",
-          "type": "string"
-        }
-      },
-      "type": "object"
     }
   }
 }
